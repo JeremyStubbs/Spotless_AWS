@@ -13,8 +13,7 @@ exports.handler = async (event, context) => {
     switch (event.routeKey) {
       case "GET /items/rock":
         body = await dynamo.query({ TableName : "Music", IndexName: "genre", KeyConditionExpression: "genre = :name", ExpressionAttributeValues: {
-        ":name": "Rock"
-    }}).promise();
+        ":name": "rock"}}).promise();
         break;
       case "GET /items":
         body = await dynamo.scan({ TableName: "Music" }).promise();

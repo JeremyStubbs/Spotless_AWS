@@ -1,8 +1,8 @@
-# AWS_seed
-This code was used to insert items item my dynamodb table. 
+# AWS
+This repository contains the code used to seed a dynamodb database and also the lambda function with which the API Gateway interacts to GET data from the database.
 
-The original file "seedData.json" is a regular json. 
+Seed.py was used to seed the dynamodb database from seedData.json.
 
-In order to convert it into a usable json format which the AWS CLI could use to seed the "Spotless" database, I had to add keys to each element of each item in the file - see the file named "template" for explanation. 
+The lambda function was written in node.
 
-Unfortunately the CLI batch write function only handles 25 at a time. So I converted the json 25 items at a time and stored them in a temporary file called "anotherfile.json". This file was used to perform the CLI batch-write operation using the OS module.
+The python files perform what is suggested in their titles and are included as a bonus. 
