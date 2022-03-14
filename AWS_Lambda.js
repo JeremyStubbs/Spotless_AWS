@@ -11,9 +11,9 @@ exports.handler = async (event, context) => {
 
   try {
     switch (event.routeKey) {
-      case "GET /items/rock":
+      case "GET /items/genre/{genre}":
         body = await dynamo.query({ TableName : "Music", IndexName: "genre", KeyConditionExpression: "genre = :name", ExpressionAttributeValues: {
-        ":name": "rock"}}).promise();
+        ":name": event.pathParameters.genre}}).promise();
         break;
       case "GET /items":
         body = await dynamo.scan({ TableName: "Music" }).promise();
