@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
           body = await dynamo.delete({ TableName: "Playlists", Key: JSON.parse(event.body)}).promise();
           break;
         default:
-          throw new Error(`Unsupported route: "${event.queryParameters}"`);
+          throw new Error(`Error: "route:${event.httpMethod}, body:${event.body}"`);
       }
     }
   } catch (err) {
