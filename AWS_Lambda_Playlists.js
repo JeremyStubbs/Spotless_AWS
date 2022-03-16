@@ -10,15 +10,17 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    switch (event.httpMethod) {
-      case "GET":
-        if (event.path == "/items"){
-          body = await dynamo.get({ TableName: "Playlists", Key: {"name": event.queryStringParameters.name, "owner":event.queryStringParameters.owner}}).promise();
+    if (event.path == "/items"){
+      switch (event.httpMethod) {
+        case "GET":
+            body = await dynamo.get({ TableName: "Playlists", Key: {"name": event.queryStringParameters.name, "owner":event.queryStringParameters.owner}}).promise();
           break;
-        }
-        
-      default:
-        throw new Error(`Unsupported route: "${event.queryParameters}"`);
+        case "PUT":
+          body = await dynamo.put({ TableName: "Playlists", Item: {"name": event.queryStringParameters.name, "owner":event.queryStringParameters.owner}}).promise();
+          break;
+        default:
+          throw new Error(`Unsupported route: "${event.queryParameters}"`);
+      }
     }
   } catch (err) {
     statusCode = 400;
@@ -33,3 +35,4 @@ exports.handler = async (event, context) => {
     headers
   };
 };
+
