@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
             body = await dynamo.get({ TableName: "Playlists", Key: {"name": event.queryStringParameters.name, "owner":event.queryStringParameters.owner}}).promise();
           break;
         case "PUT":
-          body = await dynamo.put({ TableName: "Playlists", Item: {"name": event.queryStringParameters.name, "owner":event.queryStringParameters.owner}}).promise();
+          body = await dynamo.put({ TableName: "Playlists", Item: JSON.parse(event.body)}).promise();
           break;
         default:
           throw new Error(`Unsupported route: "${event.queryParameters}"`);
