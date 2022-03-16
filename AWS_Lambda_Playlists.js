@@ -18,6 +18,9 @@ exports.handler = async (event, context) => {
         case "PUT":
           body = await dynamo.put({ TableName: "Playlists", Item: JSON.parse(event.body)}).promise();
           break;
+        case "DELETE":
+          body = await dynamo.delete({ TableName: "Playlists", Key: JSON.parse(event.body)}).promise();
+          break;
         default:
           throw new Error(`Unsupported route: "${event.queryParameters}"`);
       }
