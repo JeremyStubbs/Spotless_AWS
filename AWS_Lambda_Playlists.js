@@ -6,7 +6,9 @@ exports.handler = async (event, context) => {
   let body;
   let statusCode = 200;
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json", "Access-Control-Allow-Headers" : "*",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,DELETE"
   };
 
   try {
@@ -20,6 +22,16 @@ exports.handler = async (event, context) => {
           break;
         case "DELETE":
           body = await dynamo.delete({ TableName: "Playlists", Key: JSON.parse(event.body)}).promise();
+          break;
+        default:
+          throw new Error(`Error: "route:${event.httpMethod}, body:${event.body}"`);
+      }
+    }
+    if (event.path == "/all"){
+      switch (event.httpMethod) {
+        case "GET":
+          body = await dynamo.query({ TableName : "Playlists", IndexName: "owner", KeyConditionExpression: "#own = :a", ExpressionAttributeNames: {"#own":"owner"}, ExpressionAttributeValues: {
+        ":a": event.body} }).promise();
           break;
         default:
           throw new Error(`Error: "route:${event.httpMethod}, body:${event.body}"`);
