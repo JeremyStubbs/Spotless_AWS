@@ -31,7 +31,7 @@ exports.handler = async (event, context) => {
       switch (event.httpMethod) {
         case "GET":
           body = await dynamo.query({ TableName : "Playlists", IndexName: "owner", KeyConditionExpression: "#own = :a", ExpressionAttributeNames: {"#own":"owner"}, ExpressionAttributeValues: {
-        ":a": event.body} }).promise();
+        ":a": event.queryStringParameters.name} }).promise();
           break;
         default:
           throw new Error(`Error: "route:${event.httpMethod}, body:${event.body}"`);
